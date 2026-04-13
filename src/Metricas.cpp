@@ -1,4 +1,5 @@
 #include "Metricas.hpp"
+#include <cmath>
 namespace Metricas {
 	double calcular_RET(double cotacao_final, double cotacao_inicial){
 		return (cotacao_final/cotacao_inicial) - 1;	
@@ -14,6 +15,22 @@ namespace Metricas {
 		return (1/(w-1)) * somatorio;
 
 	};
-	double calcular_STAB(double w, double* cotacoes){};
-	double calcular_CONS(double w, double* cotacoes){};
+	double calcular_STAB(double w, double* cotacoes){
+		double somatorio = 0;
+		for (int i = 1; i < w; i++){
+			somatorio += pow((calcular_retorno_elementar(cotacoes[i], cotacoes[i-1]) - calcular_AVGRET(w, cotacoes)),2);
+		}
+		return sqrt((1/(w-1)) * somatorio);
+	};
+	double calcular_CONS(double w, double* cotacoes){
+		double somatorio = 0;
+			for (int i = 1; i < w; i++){
+				if (calcular_retorno_elementar(cotacoes[i], cotacoes[i-1]) > 0){
+					somatorio += 1;
+				}
+			}
+		return (1/(w-1)) * somatorio;
+
+
+	};
 };
