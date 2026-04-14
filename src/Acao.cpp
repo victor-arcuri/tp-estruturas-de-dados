@@ -19,17 +19,20 @@ void Acao::adicionar_cotacao(double cotacao){
 };
 
 double Acao::ret(){
-	Metricas::calcular_ret();
+	int index_final = (this->proxima_posicao - 1 + this->w) % this->w;
+	double p_inicial = this->cotacoes[this->proxima_posicao];
+	double p_final = this->cotacoes[index_final];
+	return Metricas::calcular_RET(p_final, p_inicial);
 };
 
 double Acao::avgret(){
-
+	return Metricas::calcular_AVGRET(this->w, this->cotacoes, this->proxima_posicao);
 };
 
 double Acao::stab(){
-
+	return Metricas::calcular_STAB(this->w, this->cotacoes, this->proxima_posicao);
 };
 
 double Acao::cons(){
-
+	return Metricas::calcular_CONS(this->w, this->cotacoes, this->proxima_posicao);
 };
