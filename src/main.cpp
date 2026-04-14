@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "Sistema.hpp"
 
 int main(){
@@ -7,6 +8,38 @@ int main(){
 	char comando;
 	while (cin >> comando){
 		if (comando == 'M'){
+			int w;
+			cin >> w;
+			sistema.set_w(w);
+			string resto_linha;
+			getline(cin, resto_linha);
+			string metrica_atual = "";
+			for (char c : resto_linha){
+				if (c!=' '){
+					metrica_atual += c;
+				} else if (!metrica_atual.empty()){
+					if (metrica_atual == "RET"){
+						sistema.set_ret(true);
+					} else if (metrica_atual == "AVGRET"){
+						sistema.set_avgret(true);
+					} else if (metrica_atual == "STAB"{
+						sistema.set_stab(true);
+					} else if (metrica_atual == "CONS"){
+						sistema.set_cons(true);
+					}
+					metrica_atual = "";
+				}
+			}
+			if (!metrica_atual.empty()){
+				if (metrica_atual == "RET"){
+					sistema.set_ret(true);
+				} else if (metrica_atual == "AVGRET"){
+					sistema.set_avgret(true);
+				} else if (metrica_atual == "STAB"{
+					sistema.set_stab(true);
+				} else if (metrica_atual == "CONS"){
+					sistema.set_cons(true);
+				}
 		}
 		else if (comando == 'A'){
 			int id;

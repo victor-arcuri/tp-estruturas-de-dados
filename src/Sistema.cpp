@@ -1,6 +1,6 @@
 #include "Sistema.hpp"
 
-Sistema::Sistema(int w): janela_w(w){};
+Sistema::Sistema(int w): janela_w(w), ret(false), avgret(false), stab(false), cons(false){};
 Sistema::~Sistema(){
 	for (int i = 0; i < this->acoes.get_tamanho(); i++){
 		delete this->acoes.obter(i);
@@ -30,6 +30,18 @@ Acao* Sistema::retomar_acao(int id){
 void Sistema::adicionar_acao(int id){
 	Acao* nova_acao = new Acao(this->janela_w, id);
 	this->acoes.adicionar(nova_acao);
+	if (this->ret){
+		this->ordenacao_ret.adicionar(nova_acao);
+	}
+	if (this->avgret){
+		this->ordenacao_avgret.adicionar(nova_acao);
+	}
+	if (this->stab){
+		this->ordenacao_stab.adicionar(nova_acao);
+	}
+	if (this->cons){
+		this->ordenacao_cons.adicionar(nova_acao);
+	}	
 }
 void Sistema::adicionar_cliente(int id){
 	Cliente* novo_cliente = new Cliente(id);
@@ -38,6 +50,10 @@ void Sistema::adicionar_cliente(int id){
 void Sistema::nova_cotacao(int id, double preco){
 	Acao* acao = this->retomar_acao(id);
 	acao->adicionar_cotacao(preco);
+	/**
+	 * ABORDAGEM IMEDIATA
+	 * Checar quais métricas são afetadas pela nova cotação e atualizar a ordenação delas
+	 **/
 }
 void Sistema::comprar_acao(int id_cliente, int id_acao){
 	Cliente* cliente = this->retomar_cliente(id_cliente);
@@ -52,4 +68,17 @@ void Sistema::vender_acao(int id_cliente, int id_acao){
 
 void Sistema::set_w(int w){
 	this->janela_w = w;
+}
+
+void Sistema::set_ret(bool state){
+	this->ret = state;
+}
+void Sistema::set_avgret(bool state){
+	this->avgret = state;
+}
+void Sistema::set_stab(bool state){
+	this->stab = state;
+}
+void Sistema::set_cons(bool state){
+	this->cons = state;
 }
