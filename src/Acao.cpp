@@ -1,7 +1,7 @@
 #include "Acao.hpp"
 #include "Metricas.hpp"
 
-Acao::Acao(int w): w(w), proxima_posicao(0){
+Acao::Acao(int w, int id): w(w), proxima_posicao(0), id(id){
 	this->cotacoes = new double[w];
 };
 
@@ -36,3 +36,7 @@ double Acao::stab(){
 double Acao::cons(){
 	return Metricas::calcular_CONS(this->w, this->cotacoes, this->proxima_posicao);
 };
+
+int Acao::get_id(){
+	return this->id;
+}

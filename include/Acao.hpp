@@ -6,8 +6,9 @@ class Acao {
 		double* cotacoes;
 		int w;
 		int proxima_posicao;
+		int id;
 	public:
-		Acao(int w);
+		Acao(int w, int id);
 		~Acao();
 		
 		double ultima_cotacao();
@@ -16,6 +17,7 @@ class Acao {
 		double avgret();
 		double stab();
 		double cons();
+		int get_id();
 		
 		
 };
