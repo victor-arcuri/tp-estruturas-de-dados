@@ -50,3 +50,6 @@ void Sistema::vender_acao(int id_cliente, int id_acao){
 	cliente->vender_acao(acao);
 }
 
+void Sistema::set_w(int w){
+	this->janela_w = w;
+}

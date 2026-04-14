@@ -13,8 +13,9 @@ class Sistema{
 		Cliente* retomar_cliente(int id);
 		Acao* retomar_acao(int id);
 	public:
-		Sistema(int w);
+		Sistema();
 		~Sistema();
+		void set_w(int w);
 		void adicionar_acao(int id);
 		void adicionar_cliente(int id);
 		void nova_cotacao(int id, double preco);
