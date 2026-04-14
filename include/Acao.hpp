@@ -3,18 +3,19 @@
 
 class Acao {
 	private:
-		float* cotacoes;
+		double* cotacoes;
 		int w;
+		int proxima_posicao;
 	public:
 		Acao(int w);
 		~Acao();
 		
-		float ultima_cotacao();
-		float adicionar_cotacao();
-		float ret();
-		float avgret();
-		float stab();
-		float cons();
+		double ultima_cotacao();
+		void adicionar_cotacao(double cotacao);
+		double ret();
+		double avgret();
+		double stab();
+		double cons();
 		
 		
 };
