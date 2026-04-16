@@ -6,5 +6,17 @@ namespace Metricas {
 	double calcular_AVGRET(double w, double* cotacoes);
 	double calcular_STAB(double w, double* cotacoes);
 	double calcular_CONS(double w, double* cotacoes);
+
+	enum Metrica {
+		RET,
+		AVGRET,
+		STAB,
+		CONS
+	};
+
+	struct MetricaPesada {
+		Metrica metrica;
+		double peso;
+	};
 };
 #endif

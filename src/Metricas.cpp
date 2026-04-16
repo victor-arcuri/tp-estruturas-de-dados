@@ -39,4 +39,5 @@ namespace Metricas {
 		}
 		return (1.0/(w-1.0)) * somatorio;
 	}
+	
 }
