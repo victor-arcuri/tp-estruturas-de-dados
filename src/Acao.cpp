@@ -18,23 +18,28 @@ void Acao::adicionar_cotacao(double cotacao){
 	this->proxima_posicao = (this->proxima_posicao + 1 ) % this->w;
 };
 
-double Acao::ret(){
+double Acao::calcula_ret(){
 	int index_final = (this->proxima_posicao - 1 + this->w) % this->w;
 	double p_inicial = this->cotacoes[this->proxima_posicao];
 	double p_final = this->cotacoes[index_final];
-	return Metricas::calcular_RET(p_final, p_inicial);
-};
+	this->ret = Metricas::calcular_RET(p_final, p_inicial);
+	return this->ret;
+};	
 
-double Acao::avgret(){
-	return Metricas::calcular_AVGRET(this->w, this->cotacoes, this->proxima_posicao);
+
+double Acao::calcula_avgret(){
+	this->avgret = Metricas::calcular_AVGRET(this->w, this->cotacoes, this->proxima_posicao);
+	return this->avgret;
 };
 
 double Acao::stab(){
-	return Metricas::calcular_STAB(this->w, this->cotacoes, this->proxima_posicao);
+	this->stab = Metricas::calcular_STAB(this->w, this->cotacoes, this->proxima_posicao);
+	return this->stab;
 };
 
 double Acao::cons(){
-	return Metricas::calcular_CONS(this->w, this->cotacoes, this->proxima_posicao);
+	this->cons = Metricas::calcular_CONS(this->w, this->cotacoes, this->proxima_posicao);
+	return this->cons;
 };
 
 int Acao::get_id(){
