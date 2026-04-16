@@ -1,6 +1,8 @@
 #include "Sistema.hpp"
 
-Sistema::Sistema(int w): janela_w(w), ret(false), avgret(false), stab(false), cons(false){};
+using namespace Metricas;
+
+Sistema::Sistema(): ret(false), avgret(false), stab(false), cons(false){};
 Sistema::~Sistema(){
 	for (int i = 0; i < this->acoes.get_tamanho(); i++){
 		delete this->acoes.obter(i);
@@ -81,4 +83,93 @@ void Sistema::set_stab(bool state){
 }
 void Sistema::set_cons(bool state){
 	this->cons = state;
+}
+Acao* Sistema::consulta(int id_consulta, int id_cliente, int m, MetricaPesada* metricas_pesadas){
+	VetorDinamico<Acao*> acoes_com_peso(this->acoes.get_tamanho());
+	for (int i = 0; i < this->acoes.get_tamanho(); i++){
+		Acao* acao = this->acoes.obter(i);
+		double pontuacao = 0;
+		for (int j = 0; j < m; j++){
+			MetricaPesada metrica_pesada = metricas_pesadas[j];
+			VetorDinamico<Acao*>* vetor_metrica = nullptr;
+			switch(metrica_pesada.metrica){
+				case RET:
+					vetor_metrica = &(this->ordenacao_ret);
+					break;
+				case AVGRET:
+					vetor_metrica = &(this->ordenacao_avgret);
+					break;
+				case STAB:
+					vetor_metrica = &(this->ordenacao_stab);
+					break;
+				case CONS:
+					vetor_metrica = &(this->ordenacao_cons);
+					break;
+			}
+			int pontos_pos = vetor_metrica->get_tamanho() - vetor_metrica->encontrar_item(acao);
+			pontuacao+=(pontos_pos*metrica_pesada.peso);
+		}	
+		acao->set_pontos(pontuacao);
+		acoes_com_peso.adicionar(acao);
+	}
+	OrdenarAcoes(acoes_com_peso, this->acoes.get_tamanho(), PONTOS);
+	
+
+}
+
+void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, Metrica metrica){
+	Acao *x,*w;
+	*i = Esq;
+	*j = Dir;
+	x = acoes.obter((*i + *j)/2);
+        do {
+		while (ComparaAcoes(x, acoes.obter(*i), metrica) == x) (*i)++;
+		while (ComparaAcoes(x, acoes.obter(*j), metrica) == acoes.obter(*j)) (*j)--;
+		if (*i <= *j){
+			w = acoes.obter(*i);
+			acoes.alterar(*i,acoes.obter(*j));
+			acoes.alterar(*j,w);
+			(*i)++;
+			(j)--;
+		}
+	}
+	while (*i <= *j);	
+}
+
+void Ordenar(int Esq, int Dir, VetorDinamico<Acao*>& acoes, Metrica metrica){
+	int i, j;
+	Particionar(Esq, Dir, &i, &j, acoes, metrica);
+	if (Esq < j) Ordenar(Esq, j, acoes, metrica);
+	if (i < Dir) Ordenar(i, Dir, acoes, metrica);
+}
+
+void OrdenarAcoes(VetorDinamico<Acao*>& acoes, int n, Metrica metrica){
+	Ordenar(0, n-1, acoes, metrica);
+	
+}
+
+
+Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
+	switch (metrica){
+		case RET:
+			if (acao1->get_ret() > acao2->get_ret()) return acao1;
+			else if (acao1->get_ret() < acao2->get_ret()) return acao2;
+			return nullptr;
+		case AVGRET:
+			if (acao1->get_avgret() > acao2->get_avgret()) return acao1;
+			else if (acao1->get_avgret() < acao2->get_avgret()) return acao2;
+			return nullptr;
+		case STAB:
+			if (acao1->get_stab() > acao2->get_stab()) return acao1;
+			else if (acao1->get_stab() < acao2->get_stab()) return acao2;
+			return nullptr;
+		case CONS:
+			if (acao1->get_cons() > acao2->get_cons()) return acao1;
+			else if (acao1->get_cons() < acao2->get_cons()) return acao2;
+			return nullptr;
+		case PONTOS:
+			if (acao1->get_pontos() > acao2->get_pontos()) return acao1;
+			else if (acao1->get_pontos() < acao2->get_pontos()) return acao2;
+			return nullptr;
+	}	
 }

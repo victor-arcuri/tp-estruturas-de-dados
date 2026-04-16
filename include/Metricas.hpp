@@ -11,12 +11,13 @@ namespace Metricas {
 		RET,
 		AVGRET,
 		STAB,
-		CONS
+		CONS,
+		PONTOS
 	};
 
 	struct MetricaPesada {
 		Metrica metrica;
 		double peso;
-	} MetricaPesada;
+	};
 };
 #endif

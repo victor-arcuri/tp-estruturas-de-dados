@@ -1,7 +1,7 @@
 #ifndef VETORDINAMICO_HPP
 #define VETORDINAMICO_HPP
 
-#include <stdexception>
+#include <stdexcept>
 
 template <typename T>
 class VetorDinamico{
@@ -62,7 +62,19 @@ class VetorDinamico{
 			this->array[pos] = this->array[tamanho-1];
 			this->tamanho--;
 		}
+		int encontrar_item(const T& item){
+			for (int i = 0; i < this->tamanho;i++){
+				if (this->array[i] == item) return i;
+			}
+			return -1;
+		}
+		void alterar(int pos, const T& item) {
+			if (pos < 0 || pos >= tamanho) {
+				throw std::out_of_range("Índice inválido no alterar");
+			}
+			this->array[pos] = item;
+		}
 
-}
+};
 
 #endif

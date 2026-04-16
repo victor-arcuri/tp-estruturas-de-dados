@@ -11,6 +11,7 @@ class Acao {
 		double avgret;
 		double stab;
 		double cons;
+		double pontos;
 	public:
 		Acao(int w, int id);
 		~Acao();
@@ -22,6 +23,12 @@ class Acao {
 		double calcula_stab();
 		double calcula_cons();
 		int get_id();
+		double set_pontos(double pontuacao);
+		double get_ret();
+		double get_avgret();
+		double get_stab();
+		double get_cons();
+		double get_pontos();
 		
 		
 };

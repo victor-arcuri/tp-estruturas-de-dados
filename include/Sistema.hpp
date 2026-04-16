@@ -4,6 +4,7 @@
 #include "VetorDinamico.hpp"
 #include "Cliente.hpp"
 #include "Acao.hpp"
+#include "Metricas.hpp"
 
 class Sistema{
 	private:
@@ -32,7 +33,8 @@ class Sistema{
 		void set_ret(bool state);	
 		void set_avgret(bool state);	
 		void set_stab(bool state);	
-		void set_cons(bool state);	
+		void set_cons(bool state);
+		Acao* consulta(int id_consulta, int id_cliente, int m, Metricas::MetricaPesada* metricas_pesadas);	
 };
 
 #endif

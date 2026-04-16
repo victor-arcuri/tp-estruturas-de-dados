@@ -19,7 +19,7 @@ namespace Metricas {
 	}
 	double calcular_STAB(int w, double* cotacoes, int inicio){
 		double somatorio = 0;
-		double avgret = calcular_AVGRET(w, cotacoes, inicio)
+		double avgret = calcular_AVGRET(w, cotacoes, inicio);
 		for (int i = 1; i < w; i++){
 			int index_atual = (inicio + i) % w;
 			int index_anterior = (inicio + i -1) % w;
