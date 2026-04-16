@@ -1,4 +1,6 @@
 #include "Sistema.hpp"
+#include <iostream>
+#include <iomanip>
 
 using namespace Metricas;
 
@@ -84,10 +86,11 @@ void Sistema::set_stab(bool state){
 void Sistema::set_cons(bool state){
 	this->cons = state;
 }
-Acao* Sistema::consulta(int id_consulta, int id_cliente, int m, MetricaPesada* metricas_pesadas){
+void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPesada* metricas_pesadas){
+	VetorDinamico<Acao*>* acoes_cliente = clientes.obter(id_cliente)->get_acoes();
 	VetorDinamico<Acao*> acoes_com_peso(this->acoes.get_tamanho());
-	for (int i = 0; i < this->acoes.get_tamanho(); i++){
-		Acao* acao = this->acoes.obter(i);
+	for (int i = 0; i < acoes_cliente->get_tamanho(); i++){
+		Acao* acao = acoes_cliente->obter(i);
 		double pontuacao = 0;
 		for (int j = 0; j < m; j++){
 			MetricaPesada metrica_pesada = metricas_pesadas[j];
@@ -112,8 +115,20 @@ Acao* Sistema::consulta(int id_consulta, int id_cliente, int m, MetricaPesada* m
 		acao->set_pontos(pontuacao);
 		acoes_com_peso.adicionar(acao);
 	}
-	OrdenarAcoes(acoes_com_peso, this->acoes.get_tamanho(), PONTOS);
-	
+	OrdenarAcoes(acoes_com_peso, acoes_cliente->get_tamanho(), PONTOS);
+	int limit;
+	if (acoes_com_peso.get_tamanho() < n) limit = acoes_com_peso.get_tamanho(); 
+	else limit = n;
+	int pos = 0;
+	for (int i = limit - 1; i >= 0; i-- ){
+		std::cout << "R " << id_consulta << " " << "M " << pos << " " << acoes_com_peso.obter(i)->get_id() << " " << std::fixed << std::setprecision(2) << acoes_com_peso.obter(i)->get_pontos() << "\n";
+		pos++;
+	}
+	pos = 0;
+	for (int i = 0; i < limit; i++ ){
+		std::cout << "R " << id_consulta << " " << "P " << pos << " " << acoes_com_peso.obter(i)->get_id() << " " << std::fixed << std::setprecision(2) << acoes_com_peso.obter(i)->get_pontos() << "\n";
+		pos++;
+	}
 
 }
 
@@ -154,22 +169,27 @@ Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
 		case RET:
 			if (acao1->get_ret() > acao2->get_ret()) return acao1;
 			else if (acao1->get_ret() < acao2->get_ret()) return acao2;
-			return nullptr;
+			else if (acao1->get_id() > acao1->get_id()) return acao1;
+			else if (acao1->get_id() < acao1->get_id()) return acao2;
 		case AVGRET:
 			if (acao1->get_avgret() > acao2->get_avgret()) return acao1;
 			else if (acao1->get_avgret() < acao2->get_avgret()) return acao2;
-			return nullptr;
+			else if (acao1->get_id() > acao1->get_id()) return acao1;
+			else if (acao1->get_id() < acao1->get_id()) return acao2;
 		case STAB:
 			if (acao1->get_stab() > acao2->get_stab()) return acao1;
 			else if (acao1->get_stab() < acao2->get_stab()) return acao2;
-			return nullptr;
+			else if (acao1->get_id() > acao1->get_id()) return acao1;
+			else if (acao1->get_id() < acao1->get_id()) return acao2;
 		case CONS:
 			if (acao1->get_cons() > acao2->get_cons()) return acao1;
 			else if (acao1->get_cons() < acao2->get_cons()) return acao2;
-			return nullptr;
+			else if (acao1->get_id() > acao1->get_id()) return acao1;
+			else if (acao1->get_id() < acao1->get_id()) return acao2;
 		case PONTOS:
 			if (acao1->get_pontos() > acao2->get_pontos()) return acao1;
 			else if (acao1->get_pontos() < acao2->get_pontos()) return acao2;
-			return nullptr;
+			else if (acao1->get_id() > acao1->get_id()) return acao1;
+			else if (acao1->get_id() < acao1->get_id()) return acao2;
 	}	
 }

@@ -14,6 +14,7 @@ class Cliente {
 		void comprar_acao(Acao* acao);
 		void vender_acao(Acao* acao);
 		int get_id();
+		VetorDinamico<Acao*>* get_acoes();
 };
 
 #endif

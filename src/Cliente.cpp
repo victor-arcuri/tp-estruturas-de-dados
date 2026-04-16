@@ -15,3 +15,7 @@ void Cliente::vender_acao(Acao* acao){
 int Cliente::get_id(){
 	return this->id;
 }
+
+VetorDinamico<Acao*>* Cliente::get_acoes(){
+	return &(this->carteira);
+}

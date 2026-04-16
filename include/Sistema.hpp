@@ -34,7 +34,7 @@ class Sistema{
 		void set_avgret(bool state);	
 		void set_stab(bool state);	
 		void set_cons(bool state);
-		Acao* consulta(int id_consulta, int id_cliente, int m, Metricas::MetricaPesada* metricas_pesadas);	
+		void consulta(int id_consulta, int id_cliente, int n, int m, Metricas::MetricaPesada* metricas_pesadas);
 };
 
 #endif

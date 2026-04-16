@@ -107,7 +107,7 @@ int main(){
 							break;
 					}
 					metricas_pesadas[i] = { metrica, metrica_peso }; 
-					
+					sistema.consulta(id_consulta, id_cliente, n, m, metricas_pesadas);
 				}
 				break;
 			}
