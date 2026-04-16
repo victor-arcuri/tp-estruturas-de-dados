@@ -17,6 +17,6 @@ namespace Metricas {
 	struct MetricaPesada {
 		Metrica metrica;
 		double peso;
-	};
+	} MetricaPesada;
 };
 #endif

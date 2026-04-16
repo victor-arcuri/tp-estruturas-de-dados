@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include "Sistema.hpp"
+#include "Metricas.hpp"
 
 int main(){
 	Sistema sistema;
@@ -70,6 +71,31 @@ int main(){
 			sistema.vender_acao(id_cliente, id_acao);
 		}
 		else if (comando == 'Q'){
+			int id_consulta, id_cliente, n, m;
+			cin >> id_consulta >> id_cliente >> n >> m;
+			MetricaPesada metricas_pesadas[m];
+			for (int i = 0; i < m; i++){
+				string metrica_nome;
+				double metrica_peso;
+				cin >> metrica_nome >> metrica_peso;
+				Metrica metrica;
+				switch (metrica_nome){
+					case "RET":
+						metrica = RET;
+						break;
+					case "AVGRET":
+						metrica = AVGRET;
+						break;
+					case "STAB":
+						metrica = STAB;
+						break;
+					case "CONS":
+						metrica = CONS;
+						break;
+				}
+				metricas_pesadas[i] = { metrica, peso }; 
+				
+			}
 		}
 	}
 	return 0;
