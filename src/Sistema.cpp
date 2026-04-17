@@ -86,6 +86,66 @@ void Sistema::set_stab(bool state){
 void Sistema::set_cons(bool state){
 	this->cons = state;
 }
+
+Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
+	switch (metrica){
+		case RET:
+			if (acao1->get_ret() > acao2->get_ret()) return acao1;
+			if (acao1->get_ret() < acao2->get_ret()) return acao2;
+			break;
+		case AVGRET:
+			if (acao1->get_avgret() > acao2->get_avgret()) return acao1;
+			if (acao1->get_avgret() < acao2->get_avgret()) return acao2;
+			break;
+		case STAB:
+			if (acao1->get_stab() > acao2->get_stab()) return acao1;
+			if (acao1->get_stab() < acao2->get_stab()) return acao2;
+			break;
+		case CONS:
+			if (acao1->get_cons() > acao2->get_cons()) return acao1;
+			if (acao1->get_cons() < acao2->get_cons()) return acao2;
+			break;
+		case PONTOS:
+			if (acao1->get_pontos() > acao2->get_pontos()) return acao1;
+			if (acao1->get_pontos() < acao2->get_pontos()) return acao2;
+			break;
+	}	
+	if (acao1->get_id() > acao2->get_id()) return acao1;
+    return acao2;
+}
+
+void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, Metrica metrica){
+	Acao *x,*w;
+	*i = Esq;
+	*j = Dir;
+	x = acoes.obter((*i + *j)/2);
+        do {
+		while (ComparaAcoes(x, acoes.obter(*i), metrica) == x) (*i)++;
+		while (ComparaAcoes(x, acoes.obter(*j), metrica) == acoes.obter(*j)) (*j)--;
+		if (*i <= *j){
+			w = acoes.obter(*i);
+			acoes.alterar(*i,acoes.obter(*j));
+			acoes.alterar(*j,w);
+			(*i)++;
+			(j)--;
+		}
+	}
+	while (*i <= *j);	
+}
+
+
+void Ordenar(int Esq, int Dir, VetorDinamico<Acao*>& acoes, Metrica metrica){
+	int i, j;
+	Particionar(Esq, Dir, &i, &j, acoes, metrica);
+	if (Esq < j) Ordenar(Esq, j, acoes, metrica);
+	if (i < Dir) Ordenar(i, Dir, acoes, metrica);
+}
+
+void OrdenarAcoes(VetorDinamico<Acao*>& acoes, int n, Metrica metrica){
+	Ordenar(0, n-1, acoes, metrica);
+	
+}
+
 void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPesada* metricas_pesadas){
 	VetorDinamico<Acao*>* acoes_cliente = clientes.obter(id_cliente)->get_acoes();
 	VetorDinamico<Acao*> acoes_com_peso(this->acoes.get_tamanho());
@@ -107,6 +167,8 @@ void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPes
 					break;
 				case CONS:
 					vetor_metrica = &(this->ordenacao_cons);
+					break;
+				case PONTOS:
 					break;
 			}
 			int pontos_pos = vetor_metrica->get_tamanho() - vetor_metrica->encontrar_item(acao);
@@ -132,68 +194,6 @@ void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPes
 
 }
 
-void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, Metrica metrica){
-	Acao *x,*w;
-	*i = Esq;
-	*j = Dir;
-	x = acoes.obter((*i + *j)/2);
-        do {
-		while (ComparaAcoes(x, acoes.obter(*i), metrica) == x) (*i)++;
-		while (ComparaAcoes(x, acoes.obter(*j), metrica) == acoes.obter(*j)) (*j)--;
-		if (*i <= *j){
-			w = acoes.obter(*i);
-			acoes.alterar(*i,acoes.obter(*j));
-			acoes.alterar(*j,w);
-			(*i)++;
-			(j)--;
-		}
-	}
-	while (*i <= *j);	
-}
-
-void Ordenar(int Esq, int Dir, VetorDinamico<Acao*>& acoes, Metrica metrica){
-	int i, j;
-	Particionar(Esq, Dir, &i, &j, acoes, metrica);
-	if (Esq < j) Ordenar(Esq, j, acoes, metrica);
-	if (i < Dir) Ordenar(i, Dir, acoes, metrica);
-}
-
-void OrdenarAcoes(VetorDinamico<Acao*>& acoes, int n, Metrica metrica){
-	Ordenar(0, n-1, acoes, metrica);
-	
-}
-
-
-Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
-	switch (metrica){
-		case RET:
-			if (acao1->get_ret() > acao2->get_ret()) return acao1;
-			else if (acao1->get_ret() < acao2->get_ret()) return acao2;
-			else if (acao1->get_id() > acao1->get_id()) return acao1;
-			else if (acao1->get_id() < acao1->get_id()) return acao2;
-		case AVGRET:
-			if (acao1->get_avgret() > acao2->get_avgret()) return acao1;
-			else if (acao1->get_avgret() < acao2->get_avgret()) return acao2;
-			else if (acao1->get_id() > acao1->get_id()) return acao1;
-			else if (acao1->get_id() < acao1->get_id()) return acao2;
-		case STAB:
-			if (acao1->get_stab() > acao2->get_stab()) return acao1;
-			else if (acao1->get_stab() < acao2->get_stab()) return acao2;
-			else if (acao1->get_id() > acao1->get_id()) return acao1;
-			else if (acao1->get_id() < acao1->get_id()) return acao2;
-		case CONS:
-			if (acao1->get_cons() > acao2->get_cons()) return acao1;
-			else if (acao1->get_cons() < acao2->get_cons()) return acao2;
-			else if (acao1->get_id() > acao1->get_id()) return acao1;
-			else if (acao1->get_id() < acao1->get_id()) return acao2;
-		case PONTOS:
-			if (acao1->get_pontos() > acao2->get_pontos()) return acao1;
-			else if (acao1->get_pontos() < acao2->get_pontos()) return acao2;
-			else if (acao1->get_id() > acao1->get_id()) return acao1;
-			else if (acao1->get_id() < acao1->get_id()) return acao2;
-	}	
-}
-
 void Sistema::OrdenaMetrica(Metrica metrica){
 	switch (metrica){
 		case RET:
@@ -208,6 +208,8 @@ void Sistema::OrdenaMetrica(Metrica metrica){
 		case CONS:
 			OrdenarAcoes(this->ordenacao_cons, this->ordenacao_cons.get_tamanho(), CONS);
 			break;
+		case PONTOS:
+			OrdenarAcoes(this->ordenacao_cons, this->ordenacao_cons.get_tamanho(), PONTOS);
 	}
 }
 

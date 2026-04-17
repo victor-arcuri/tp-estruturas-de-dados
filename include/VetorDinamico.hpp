@@ -11,7 +11,7 @@ class VetorDinamico{
 		T* array;
 		
 		void redimensionar(){
-			this->capacidade *= 2
+			this->capacidade *= 2;
 			T* nova_array = new T[this->capacidade];
 			for (int i = 0; i < tamanho; i++){
 				nova_array[i] = this->array[i];

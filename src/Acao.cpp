@@ -28,17 +28,17 @@ double Acao::calcula_ret(){
 
 
 double Acao::calcula_avgret(){
-	this->avgret = Metricas::calcular_AVGRET(this->w, this->cotacoes);
+	this->avgret = Metricas::calcular_AVGRET(this->w, this->cotacoes, this->proxima_posicao);
 	return this->avgret;
 };
 
 double Acao::calcula_stab(){
-	this->stab = Metricas::calcular_STAB(this->w, this->cotacoes);
+	this->stab = Metricas::calcular_STAB(this->w, this->cotacoes, this->proxima_posicao);
 	return this->stab;
 };
 
 double Acao::calcula_cons(){
-	this->cons = Metricas::calcular_CONS(this->w, this->cotacoes);
+	this->cons = Metricas::calcular_CONS(this->w, this->cotacoes, this->proxima_posicao);
 	return this->cons;
 };
 
@@ -48,6 +48,7 @@ int Acao::get_id(){
 
 double Acao::set_pontos(double pontuacao){
 	this->pontos = pontuacao;
+	return this->pontos;
 }
 
 double Acao::get_ret(){
