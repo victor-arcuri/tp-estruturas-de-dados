@@ -53,6 +53,7 @@ void Sistema::adicionar_cliente(int id) {
 void Sistema::nova_cotacao(int id, double preco) {
 	Acao *acao = this->retomar_acao(id);
 	acao->adicionar_cotacao(preco);
+	this->OrdenarMetricasAtivas();
 }
 void Sistema::comprar_acao(int id_cliente, int id_acao) {
 	Cliente *cliente = this->retomar_cliente(id_cliente);
