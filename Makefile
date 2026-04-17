@@ -1,10 +1,10 @@
 CC = g++
 CXXFLAGS = -Wall -std=c++11 -Iinclude
 
-all: tp1.out
+all: bin/tp1.out
 
-tp1.out: obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o
-	$(CC) $(CXXFLAGS) obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o -o tp1.out
+bin/tp1.out: obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o
+	$(CC) $(CXXFLAGS) obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o -o bin/tp1.out
 
 obj/main.o: src/main.cpp
 	$(CC) $(CXXFLAGS) -c src/main.cpp -o obj/main.o
