@@ -193,3 +193,27 @@ Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
 			else if (acao1->get_id() < acao1->get_id()) return acao2;
 	}	
 }
+
+void Sistema::OrdenaMetrica(Metrica metrica){
+	switch (metrica){
+		case RET:
+			OrdenarAcoes(this->ordenacao_ret, this->ordenacao_ret.get_tamanho(), RET);
+			break;
+		case AVGRET:
+			OrdenarAcoes(this->ordenacao_avgret, this->ordenacao_avgret.get_tamanho(), AVGRET);
+			break;
+		case STAB:
+			OrdenarAcoes(this->ordenacao_stab, this->ordenacao_stab.get_tamanho(), STAB);
+			break;
+		case CONS:
+			OrdenarAcoes(this->ordenacao_cons, this->ordenacao_cons.get_tamanho(), CONS);
+			break;
+	}
+}
+
+void Sistema::OrdenarMetricasAtivas(){
+	if (this->ret) OrdenaMetrica(RET);
+	if (this->avgret) OrdenaMetrica(AVGRET);
+	if (this->stab) OrdenaMetrica(STAB);
+	if (this->cons) OrdenaMetrica(CONS);
+}
