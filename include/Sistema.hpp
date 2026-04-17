@@ -21,6 +21,8 @@ class Sistema{
 		bool cons;
 		Cliente* retomar_cliente(int id);
 		Acao* retomar_acao(int id);
+		void OrdenaMetrica(Metricas::Metrica metrica);
+		void OrdenarMetricasAtivas();
 	public:
 		Sistema();
 		~Sistema();
