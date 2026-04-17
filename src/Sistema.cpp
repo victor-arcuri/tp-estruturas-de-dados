@@ -109,7 +109,8 @@ Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
 			if (acao1->get_pontos() > acao2->get_pontos()) return acao1;
 			if (acao1->get_pontos() < acao2->get_pontos()) return acao2;
 			break;
-	}	
+	}
+	if (acao1->get_id() == acao2->get_id()) return nullptr;
 	if (acao1->get_id() > acao2->get_id()) return acao1;
     return acao2;
 }
@@ -127,7 +128,7 @@ void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, 
 			acoes.alterar(*i,acoes.obter(*j));
 			acoes.alterar(*j,w);
 			(*i)++;
-			(j)--;
+			(*j)--;
 		}
 	}
 	while (*i <= *j);	
@@ -197,15 +198,19 @@ void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPes
 void Sistema::OrdenaMetrica(Metrica metrica){
 	switch (metrica){
 		case RET:
+			for(int i = 0; i < this->acoes.get_tamanho(); i++) this->acoes.obter(i)->calcula_ret();
 			OrdenarAcoes(this->ordenacao_ret, this->ordenacao_ret.get_tamanho(), RET);
 			break;
 		case AVGRET:
+			for(int i = 0; i < this->acoes.get_tamanho(); i++) this->acoes.obter(i)->calcula_avgret();
 			OrdenarAcoes(this->ordenacao_avgret, this->ordenacao_avgret.get_tamanho(), AVGRET);
 			break;
 		case STAB:
+			for(int i = 0; i < this->acoes.get_tamanho(); i++) this->acoes.obter(i)->calcula_stab();
 			OrdenarAcoes(this->ordenacao_stab, this->ordenacao_stab.get_tamanho(), STAB);
 			break;
 		case CONS:
+			for(int i = 0; i < this->acoes.get_tamanho(); i++) this->acoes.obter(i)->calcula_cons();
 			OrdenarAcoes(this->ordenacao_cons, this->ordenacao_cons.get_tamanho(), CONS);
 			break;
 		case PONTOS:

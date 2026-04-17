@@ -92,23 +92,20 @@ int main(){
 					cin >> metrica_nome >> metrica_peso;
 					Metrica metrica;
 					if(metrica_nome == "RET"){
-							metrica = RET;
+						metrica = RET;
 					}
 					else if (metrica_nome=="AVGRET"){
-							metrica = AVGRET;
-							break;
+						metrica = AVGRET;
 					}
 					else if (metrica_nome=="STAB"){
-							metrica = STAB;
-							break;
+						metrica = STAB;
 					}
 					else if (metrica_nome=="CONS"){
-							metrica = CONS;
-							break;
+						metrica = CONS;
 					}
 					metricas_pesadas[i] = { metrica, metrica_peso }; 
-					sistema.consulta(id_consulta, id_cliente, n, m, metricas_pesadas);
 				}
+				sistema.consulta(id_consulta, id_cliente, n, m, metricas_pesadas);
 				break;
 			}
 		}
