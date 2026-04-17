@@ -159,11 +159,14 @@ void Ordenar(int Esq, int Dir, VetorDinamico<Acao *> &acoes, Metrica metrica) {
  */
 void OrdenarAcoes(VetorDinamico<Acao *> &acoes, int n, Metrica metrica) { Ordenar(0, n - 1, acoes, metrica); }
 
-void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPesada *metricas_pesadas) {
-	VetorDinamico<Acao *> *acoes_cliente = clientes.obter(id_cliente)->get_acoes();
-	VetorDinamico<Acao *> acoes_com_peso(this->acoes.get_tamanho());
-	for (int i = 0; i < acoes_cliente->get_tamanho(); i++) {
-		Acao *acao = acoes_cliente->obter(i);
+void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPesada* metricas_pesadas){
+	for (int i = 0; i < m; i++){
+		OrdenaMetrica(metricas_pesadas[i].metrica);
+	}
+	VetorDinamico<Acao*>* acoes_cliente = clientes.obter(id_cliente)->get_acoes();
+	VetorDinamico<Acao*> acoes_com_peso(this->acoes.get_tamanho());
+	for (int i = 0; i < acoes_cliente->get_tamanho(); i++){
+		Acao* acao = acoes_cliente->obter(i);
 		double pontuacao = 0;
 		for (int j = 0; j < m; j++) {
 			MetricaPesada metrica_pesada = metricas_pesadas[j];
