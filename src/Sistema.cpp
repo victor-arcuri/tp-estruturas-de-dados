@@ -111,7 +111,7 @@ Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
 			break;
 	}
 	if (acao1->get_id() == acao2->get_id()) return nullptr;
-	if (acao1->get_id() > acao2->get_id()) return acao1;
+	if (acao1->get_id() < acao2->get_id()) return acao1;
     return acao2;
 }
 
@@ -172,7 +172,7 @@ void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPes
 				case PONTOS:
 					break;
 			}
-			int pontos_pos = vetor_metrica->get_tamanho() - vetor_metrica->encontrar_item(acao);
+			int pontos_pos = vetor_metrica->encontrar_item(acao) + 1;
 			pontuacao+=(pontos_pos*metrica_pesada.peso);
 		}	
 		acao->set_pontos(pontuacao);
@@ -183,7 +183,8 @@ void Sistema::consulta(int id_consulta, int id_cliente, int n, int m, MetricaPes
 	if (acoes_com_peso.get_tamanho() < n) limit = acoes_com_peso.get_tamanho(); 
 	else limit = n;
 	int pos = 0;
-	for (int i = limit - 1; i >= 0; i-- ){
+	int tamanho = acoes_com_peso.get_tamanho();
+	for (int i = tamanho - 1; i >= tamanho - limit; i-- ){
 		std::cout << "R " << id_consulta << " " << "M " << pos << " " << acoes_com_peso.obter(i)->get_id() << " " << std::fixed << std::setprecision(2) << acoes_com_peso.obter(i)->get_pontos() << "\n";
 		pos++;
 	}
