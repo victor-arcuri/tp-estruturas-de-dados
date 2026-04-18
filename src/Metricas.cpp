@@ -7,6 +7,12 @@ namespace Metricas {
 	double calcular_retorno_elementar(double cotacao_atual, double cotacao_anterior){
 		return (cotacao_atual/cotacao_anterior) - 1;
 	}
+
+	/**
+	 * Devido ao sistema de buffer circular utilizado para guardar as cotações de cada Ação, os métodos abaixo
+	 * precisam utilizar o operador de módulo e algumas manipulações para identificarem os índices corretos
+	 * das cotações a serem utilizadas no cálculo.
+	 */
 	double calcular_AVGRET(int w, double* cotacoes, int inicio){
 		double somatorio = 0;
 		for (int i = 1; i < w; i++){
