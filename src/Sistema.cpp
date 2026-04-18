@@ -54,10 +54,6 @@ void Sistema::adicionar_cliente(int id){
 void Sistema::nova_cotacao(int id, double preco){
 	Acao* acao = this->retomar_acao(id);
 	acao->adicionar_cotacao(preco);
-	/**
-	 * ABORDAGEM IMEDIATA
-	 * Checar quais métricas são afetadas pela nova cotação e atualizar a ordenação delas
-	 **/
 }
 void Sistema::comprar_acao(int id_cliente, int id_acao){
 	Cliente* cliente = this->retomar_cliente(id_cliente);
@@ -87,6 +83,10 @@ void Sistema::set_cons(bool state){
 	this->cons = state;
 }
 
+/** 
+ * Esse método auxiliar é responsável por comparar duas Ações a partir de uma determinada métrica, 
+ * identificando qual é a maior, ou, em caso de empate, qual tem o menor id.
+*/
 Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
 	switch (metrica){
 		case RET:
@@ -115,6 +115,10 @@ Acao* ComparaAcoes(Acao* acao1, Acao* acao2, Metrica metrica){
     return acao2;
 }
 
+/** 
+ * Esse método auxiliar é responsável por implementar a lógica de partição do algoritmo de ordenamento
+ * QuickSort, utilizando uma métrica determinada para permitir a comparação de Ações.
+*/
 void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, Metrica metrica){
 	Acao *x,*w;
 	*i = Esq;
@@ -134,7 +138,10 @@ void Particionar(int Esq, int Dir, int *i, int *j, VetorDinamico<Acao*>& acoes, 
 	while (*i <= *j);	
 }
 
-
+/** 
+ * Esse método auxiliar é responsável por implementar a lógica recursiva do algoritmo de ordenamento
+ * QuickSort, utilizando uma métrica determinada para permitir a comparação de Ações.
+*/
 void Ordenar(int Esq, int Dir, VetorDinamico<Acao*>& acoes, Metrica metrica){
 	int i, j;
 	Particionar(Esq, Dir, &i, &j, acoes, metrica);
@@ -142,6 +149,10 @@ void Ordenar(int Esq, int Dir, VetorDinamico<Acao*>& acoes, Metrica metrica){
 	if (i < Dir) Ordenar(i, Dir, acoes, metrica);
 }
 
+/** 
+ * Esse método auxiliar é responsável por iniciar o processo de ordenamento do algoritmo
+ * QuickSort, utilizando uma métrica determinada para permitir a comparação de Ações.
+*/
 void OrdenarAcoes(VetorDinamico<Acao*>& acoes, int n, Metrica metrica){
 	Ordenar(0, n-1, acoes, metrica);
 	
