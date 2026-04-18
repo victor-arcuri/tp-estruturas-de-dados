@@ -8,7 +8,14 @@ Acao::Acao(int w, int id): w(w), proxima_posicao(0), id(id){
 Acao::~Acao(){
 	delete[] this->cotacoes;
 };
-		
+
+/**
+ * Como o TAD Acao guarda as cotações em um vetor do tamanho fixo igual ao tamanho da janela definido no Sistema,
+ * utiliza-se a lógica de buffer circular, em que uma vez que o vetor foi completamente preenchido, o elemento 
+ * mais antigo é substituído pelo novo elemento a ser adicionado. A variável proxima_posicao guarda qual o 
+ * próximo elemento a ser substituído. Os métodos a baixo utilizam o operador de módulo para calcular os índices
+ * reais no vetor a partir da lógica circular.
+ */
 double Acao::ultima_cotacao(){
 	return this->cotacoes[(this->proxima_posicao - 1 + this->w) % this->w];
 };
