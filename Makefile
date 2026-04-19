@@ -1,7 +1,11 @@
 CC = g++
-CXXFLAGS = -Wall -std=c++11 -Iinclude
+CXXFLAGS = -Wall -std=c++11 -Iinclude -pg
 
 all: bin/tp1.out
+teste: bin/gerador
+
+bin/gerador:
+	$(CC) src/gerador.cpp -o bin/gerador
 
 bin/tp1.out: obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o
 	$(CC) $(CXXFLAGS) obj/main.o obj/Acao.o obj/Cliente.o obj/Metricas.o obj/Sistema.o -o bin/tp1.out
@@ -22,4 +26,4 @@ obj/Sistema.o: src/Sistema.cpp
 	$(CC) $(CXXFLAGS) -c src/Sistema.cpp -o obj/Sistema.o
 
 clean:
-	rm -f obj/*.o tp1.out
+	rm -f obj/*.o bin/tp1.out bin/gerador gmon.out
